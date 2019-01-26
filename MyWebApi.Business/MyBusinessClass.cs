@@ -16,8 +16,8 @@ namespace MyWebApi.Business
 
         public void MyBusinessMethod()
         {
-            ServiceLocator.Current.GetInstance<IRepository<Product>>().Create(new Product { Name = "Product From ServiceLocator" });
             _repository.Create(new Product { Name = "Product From Constructor" });
+            ServiceLocator.Current.GetInstance<IRepository<Product>>().Create(new Product { Name = "Product From ServiceLocator" });
         }
     }
 }
