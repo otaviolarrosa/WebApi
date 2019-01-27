@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyWebApi.Infra;
 using MyWebApi.Ioc;
-//using ServiceLocator = MyWebApi.Infra.ServiceLocator;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace MyWebApi
 {
@@ -21,6 +21,22 @@ namespace MyWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1",
+                    new Info
+                    {
+                        Title = "My Microservice Api",
+                        Version = "v1",
+                        Description = "Projeto de demonstração ASP.Net Core",
+                        Contact = new Contact
+                        {
+                            Name = "Otávio Larrosa",
+                            Url = "https://github.com/otaviolarrosa"
+                        }
+                    });
+            });
+
             new RegisterClass().Register(services);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -39,6 +55,14 @@ namespace MyWebApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.RoutePrefix = "swagger";
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Microservice Api");
+            });
 
             app.UseHttpsRedirection();
             app.UseMvc();
