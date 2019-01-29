@@ -2,6 +2,7 @@
 using MyWebApi.Data.NHibernate.UnityOfWork;
 using MyWebApi.Interface.Data.NHibernate;
 using MyWebApi.Mapping.Entities;
+using MyWebApi.Utility.ExtensionMethods;
 using NHibernate;
 
 namespace MyWebApi.Data.NHibernate.Repository
@@ -27,9 +28,9 @@ namespace MyWebApi.Data.NHibernate.Repository
             return Session.Get<T>(id);
         }
 
-        public void Create(T entity)
+        public int Create(T entity)
         {
-            Session.Save(entity);
+            return Session.Save(entity).ToInt();
         }
 
         public void Update(T entity)

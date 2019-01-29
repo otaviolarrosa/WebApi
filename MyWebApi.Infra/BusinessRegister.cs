@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using MyWebApi.Business;
 using MyWebApi.Interface.Product;
 
@@ -8,7 +9,7 @@ namespace MyWebApi.Infra
     {
         public void Register(IServiceCollection services)
         {
-            services.AddTransient<IMyBusinessClass, MyBusinessClass>();
+            services.AddTransient<IProductBusiness, ProductBusiness>();
         }
     }
 }

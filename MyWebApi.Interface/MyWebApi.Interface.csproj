@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MyWebApi.Mapping\MyWebApi.Mapping.csproj" />
+    <ProjectReference Include="..\MyWebApi.Models\MyWebApi.Models.csproj" />
+  </ItemGroup>
+
 </Project>

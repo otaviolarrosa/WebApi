@@ -1,4 +1,5 @@
 ﻿using MyWebApi.Mapping.Entities;
+using MyWebApi.Utility.ExtensionMethods;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,19 +9,37 @@ namespace MyWebApi.Data.NHibernate.Repository
     {
         private List<T> _data;
 
-        public RepositoryFake() => _data = new List<T>();
+        public RepositoryFake()
+        {
+            _data = new List<T>();
+        }
 
-        public void Create(T entity) => _data.Add(entity);
+        public int Create(T entity)
+        {
+            if (entity.Id.IsNullOrZero())
+                entity.Id = _data.Any() ? _data.Max(x => x.Id) + 1 : 1;
 
-        public void Delete(int id) => _data.RemoveAll(x => x.Id == id);
+            _data.Add(entity);
+            return entity.Id;
+        }
+        public void Delete(int id)
+        {
+            _data.RemoveAll(x => x.Id == id);
+        }
 
-        public IQueryable<T> GetAll() => _data.AsQueryable();
+        public IQueryable<T> GetAll()
+        {
+            return _data.AsQueryable();
+        }
 
-        public T GetById(int id) => _data.FirstOrDefault(x => x.Id == id);
+        public T GetById(int id)
+        {
+            return _data.FirstOrDefault(x => x.Id == id);
+        }
 
         public void Update(T entity)
         {
-            var entityToUpdate = _data.FirstOrDefault(x => x.Id == entity.Id);
+            T entityToUpdate = _data.FirstOrDefault(x => x.Id == entity.Id);
             _data.Remove(entity);
             _data.Add(entity);
         }

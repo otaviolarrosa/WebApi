@@ -15,6 +15,7 @@
     <ProjectReference Include="..\MyWebApi.Infra\MyWebApi.Infra.csproj" />
     <ProjectReference Include="..\MyWebApi.Interface\MyWebApi.Interface.csproj" />
     <ProjectReference Include="..\MyWebApi.Ioc\MyWebApi.Ioc.csproj" />
+    <ProjectReference Include="..\MyWebApi.Models\MyWebApi.Models.csproj" />
   </ItemGroup>
 
 </Project>

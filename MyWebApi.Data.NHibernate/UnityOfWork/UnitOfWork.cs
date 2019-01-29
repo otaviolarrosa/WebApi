@@ -1,7 +1,9 @@
 ﻿using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
+using Microsoft.Extensions.Configuration;
 using MyWebApi.Data.NHibernate.DatabaseMapping;
 using MyWebApi.Interface.Data.NHibernate;
+using MyWebApi.Ioc;
 using NHibernate;
 using NHibernate.Tool.hbm2ddl;
 
@@ -10,10 +12,10 @@ namespace MyWebApi.Data.NHibernate.UnityOfWork
     public class UnitOfWork : IUnitOfWork
     {
 
-        private const string HOST = "localhost";
-        private const string USER = "root";
-        private const string PASSWORD = "";
-        private const string DB = "nh_db";
+        //private const string HOST = "localhost";
+        //private const string USER = "root";
+        //private const string PASSWORD = "";
+        //private const string DB = "nh_db";
 
         private static readonly ISessionFactory _sessionFactory;
         private ITransaction _transaction;
@@ -22,14 +24,21 @@ namespace MyWebApi.Data.NHibernate.UnityOfWork
 
         static UnitOfWork()
         {
+
+            var settings = ServiceLocator.Current.GetInstance<IConfiguration>().GetSection("MySqlDatabase");
+            var host = settings.GetSection("Host").Value;
+            var user = settings.GetSection("User").Value;
+            var databaseName = settings.GetSection("DatabaseName").Value;
+            var password = settings.GetSection("Password").Value;
+
             // Initialise singleton instance of ISessionFactory, static constructors are only executed once during the 
             // application lifetime - the first time the UnitOfWork class is used
             _sessionFactory = Fluently.Configure()
                 .Database(MySQLConfiguration.Standard.ConnectionString(
-                                                                       x => x.Server(HOST).
-                                                                          Username(USER).
-                                                                          Password(PASSWORD).
-                                                                          Database(DB)
+                                                                       x => x.Server(host).
+                                                                          Username(user).
+                                                                          Password(password).
+                                                                          Database(databaseName)
                                                                         ))
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<ProductMap>())
                 .ExposeConfiguration(config => new SchemaUpdate(config).Execute(false, true))

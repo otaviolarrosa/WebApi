@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyWebApi.Interface.Product;
 using MyWebApi.Ioc;
+using MyWebApi.Models.Product;
+using System.Threading.Tasks;
 
 namespace MyWebApi.Controllers
 {
@@ -9,10 +11,18 @@ namespace MyWebApi.Controllers
     public class ProductController : ControllerBase
     {
         [HttpPost]
-        public ActionResult Get()
+        public async Task<ActionResult> PostProduct([FromBody] ProductModel product)
         {
-            ServiceLocator.Current.GetInstance<IMyBusinessClass>().MyBusinessMethod();
-            return Ok();
+            ProductModel result = await ServiceLocator.Current.GetInstance<IProductBusiness>().InsertNewProduct(product);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("{id:int}")]
+        public async Task<ActionResult> GetProductById([FromRoute] int id)
+        {
+            ProductModel product = await ServiceLocator.Current.GetInstance<IProductBusiness>().GetProductById(id);
+            return Ok(product);
         }
     }
 }

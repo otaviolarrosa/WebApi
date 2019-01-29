@@ -12,7 +12,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyWebApi.Interface\MyWebApi.Interface.csproj" />
+    <ProjectReference Include="..\MyWebApi.Ioc\MyWebApi.Ioc.csproj" />
     <ProjectReference Include="..\MyWebApi.Mapping\MyWebApi.Mapping.csproj" />
+    <ProjectReference Include="..\MyWebApi.Utility\MyWebApi.Utility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+      <HintPath>..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.configuration.abstractions\2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
