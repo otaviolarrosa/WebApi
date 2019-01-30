@@ -11,12 +11,6 @@ namespace MyWebApi.Data.NHibernate.UnityOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-
-        //private const string HOST = "localhost";
-        //private const string USER = "root";
-        //private const string PASSWORD = "";
-        //private const string DB = "nh_db";
-
         private static readonly ISessionFactory _sessionFactory;
         private ITransaction _transaction;
 
@@ -24,12 +18,11 @@ namespace MyWebApi.Data.NHibernate.UnityOfWork
 
         static UnitOfWork()
         {
-
-            var settings = ServiceLocator.Current.GetInstance<IConfiguration>().GetSection("MySqlDatabase");
-            var host = settings.GetSection("Host").Value;
-            var user = settings.GetSection("User").Value;
-            var databaseName = settings.GetSection("DatabaseName").Value;
-            var password = settings.GetSection("Password").Value;
+            IConfigurationSection settings = ServiceLocator.Current.GetInstance<IConfiguration>().GetSection("MySqlDatabase");
+            string host = settings.GetSection("Host").Value;
+            string user = settings.GetSection("User").Value;
+            string databaseName = settings.GetSection("DatabaseName").Value;
+            string password = settings.GetSection("Password").Value;
 
             // Initialise singleton instance of ISessionFactory, static constructors are only executed once during the 
             // application lifetime - the first time the UnitOfWork class is used

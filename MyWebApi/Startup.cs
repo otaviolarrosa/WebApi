@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MyWebApi.Infra;
 using MyWebApi.Ioc;
 using Swashbuckle.AspNetCore.Swagger;
@@ -37,6 +38,10 @@ namespace MyWebApi
                     });
             });
 
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddSeq();
+            });
             new RegisterClass().Register(services);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
