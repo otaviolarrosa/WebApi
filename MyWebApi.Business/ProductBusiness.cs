@@ -5,6 +5,7 @@ using MyWebApi.Mapping.Entities;
 using MyWebApi.Models.Product;
 using MyWebApi.Utility.ExtensionMethods;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace MyWebApi.Business
 {
@@ -20,7 +21,12 @@ namespace MyWebApi.Business
         public async Task<ProductModel> InsertNewProduct(ProductModel product)
         {
             Product entityProduct = new Product { Name = product.Name };
-            int id = ServiceLocator.Current.GetInstance<IRepository<Product>>().Create(entityProduct);
+            int? id;
+            using (TransactionScope scope = new TransactionScope())
+            {
+                id = ServiceLocator.Current.GetInstance<IRepository<Product>>().Create(entityProduct);
+                scope.Complete();
+            }
             return new ProductModel(id, entityProduct.Name);
         }
 
