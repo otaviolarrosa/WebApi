@@ -9,6 +9,7 @@ namespace MyWebApi.Infra
         public void Register(IServiceCollection services)
         {
             services.AddSingleton<IRepository<Product>, RepositoryFake<Product>>();
+            services.AddSingleton<IRepository<Department>, RepositoryFake<Department>>();
         }
     }
 }

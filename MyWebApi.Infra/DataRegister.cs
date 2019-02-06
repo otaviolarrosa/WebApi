@@ -12,6 +12,7 @@ namespace MyWebApi.Infra
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IRepository<Product>, Repository<Product>>();
+            services.AddTransient<IRepository<Department>, Repository<Department>>();
         }
     }
 }

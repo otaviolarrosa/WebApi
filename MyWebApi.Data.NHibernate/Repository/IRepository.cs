@@ -1,4 +1,5 @@
 ﻿using MyWebApi.Mapping.Entities;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MyWebApi.Data.NHibernate.Repository

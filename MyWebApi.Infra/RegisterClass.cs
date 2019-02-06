@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MyWebApi.Infra;
 
 namespace MyWebApi.Infra
 {

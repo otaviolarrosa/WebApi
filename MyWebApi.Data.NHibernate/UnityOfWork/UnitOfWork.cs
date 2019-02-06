@@ -16,26 +16,17 @@ namespace MyWebApi.Data.NHibernate.UnityOfWork
 
         public ISession Session { get; private set; }
 
+        private static string CONNECTION_STRING;
+
         static UnitOfWork()
         {
-            IConfigurationSection settings = ServiceLocator.Current.GetInstance<IConfiguration>().GetSection("MySqlDatabase");
-            string host = settings.GetSection("Host").Value;
-            string user = settings.GetSection("User").Value;
-            string databaseName = settings.GetSection("DatabaseName").Value;
-            string password = settings.GetSection("Password").Value;
-
-            // Initialise singleton instance of ISessionFactory, static constructors are only executed once during the 
-            // application lifetime - the first time the UnitOfWork class is used
+            IConfigurationSection connStringSection = ServiceLocator.Current.GetInstance<IConfiguration>().GetSection("ConnectionStrings");
+            CONNECTION_STRING = connStringSection.GetSection("MySqlConnectionString").Value;
             _sessionFactory = Fluently.Configure()
-                .Database(MySQLConfiguration.Standard.ConnectionString(
-                                                                       x => x.Server(host).
-                                                                          Username(user).
-                                                                          Password(password).
-                                                                          Database(databaseName)
-                                                                        ))
-                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<ProductMap>())
-                .ExposeConfiguration(config => new SchemaUpdate(config).Execute(false, true))
-                .BuildSessionFactory();
+               .Database(MySQLConfiguration.Standard.ConnectionString(CONNECTION_STRING))
+               .Mappings(m => m.FluentMappings.AddFromAssemblyOf<ProductMap>())
+               .ExposeConfiguration(config => new SchemaUpdate(config).Execute(false, true))
+               .BuildSessionFactory();
         }
 
         public UnitOfWork()

@@ -9,6 +9,8 @@ namespace MyWebApi.Data.NHibernate.DatabaseMapping
         {
             Id(x => x.Id);
             Map(x => x.Name);
+            References(c => c.Department);
+            Map(x => x.DepartmentId).Formula("Department_id");
         }
     }
 }
