@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentNHibernate" Version="2.1.2" />
     <PackageReference Include="MySql.Data" Version="8.0.13" />
     <PackageReference Include="NHibernate" Version="5.2.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0-preview.7.20364.11" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,12 +16,6 @@
     <ProjectReference Include="..\MyWebApi.Ioc\MyWebApi.Ioc.csproj" />
     <ProjectReference Include="..\MyWebApi.Mapping\MyWebApi.Mapping.csproj" />
     <ProjectReference Include="..\MyWebApi.Utility\MyWebApi.Utility.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
-      <HintPath>..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.configuration.abstractions\2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using MyWebApi.Infra;
 using MyWebApi.Ioc;
-using Swashbuckle.AspNetCore.Swagger;
+using System;
 
 namespace MyWebApi
 {
@@ -25,15 +26,15 @@ namespace MyWebApi
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1",
-                    new Info
+                    new OpenApiInfo
                     {
                         Title = "My Microservice Api",
                         Version = "v1",
                         Description = "Projeto de demonstração ASP.Net Core",
-                        Contact = new Contact
+                        Contact = new OpenApiContact
                         {
                             Name = "Otávio Larrosa",
-                            Url = "https://github.com/otaviolarrosa"
+                            Url = new Uri("https://github.com/otaviolarrosa")
                         }
                     });
             });
@@ -43,7 +44,7 @@ namespace MyWebApi
                 loggingBuilder.AddSeq();
             });
             new RegisterClass().Register(services);
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             ServiceLocator.SetLocatorProvider(services.BuildServiceProvider());
         }
@@ -52,15 +53,9 @@ namespace MyWebApi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
             else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
-
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -70,7 +65,11 @@ namespace MyWebApi
             });
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
